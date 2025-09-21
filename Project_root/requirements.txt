@@ -1,0 +1,10 @@
+pandas
+sqlalchemy
+pyod
+streamlit
+apache-airflow==2.9.0
+psycopg2-binary          
+requests               
+numpy
+seaborn
+plotly

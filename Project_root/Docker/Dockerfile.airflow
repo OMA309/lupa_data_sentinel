@@ -1,0 +1,19 @@
+FROM apache/airflow:2.9.0
+
+WORKDIR /opt/airflow
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir --upgrade pip \
+    && if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
+
+# Copy src and plugins into image as fallback (they’ll still be mounted via volumes)
+COPY src/ /opt/airflow/src
+COPY plugins/ /opt/airflow/plugins
+
+USER ${AIRFLOW_UID:-50000}
+
+ENV PYTHONPATH=/opt/airflow:/opt/airflow/src:/opt/airflow/plugins
+
+ENTRYPOINT ["/entrypoint"]
+CMD ["webserver"]
